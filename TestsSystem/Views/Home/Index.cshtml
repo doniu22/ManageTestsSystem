@@ -1,19 +1,10 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2 class="text-center">Witaj w systemie zarządzania testami! <span class="glyphicon glyphicon-book"></span></h2>
 
-<div class="dropdown col-md-offset-4">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-        Zarządzanie użytkownikami
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-       <li>@Html.ActionLink("Zarządzaj użytkownikami", "Index", "Users")</li>
-       <li>@Html.ActionLink("Zarządzaj rolami", "Roles", "Users")</li>
-    </ul>
-</div>
 
 
 

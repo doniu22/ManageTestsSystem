@@ -62,7 +62,28 @@ namespace TestsSystem.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class EditViewModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public string Id { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Surname")]
+        public string Surname { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+    }
+
+        public class RegisterViewModel
     {
         [Required]
         [Display(Name = "Name")]
@@ -87,6 +108,10 @@ namespace TestsSystem.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string RoleName { get; set; }
     }
 
     public class ResetPasswordViewModel

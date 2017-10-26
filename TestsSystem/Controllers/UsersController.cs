@@ -40,8 +40,9 @@ namespace TestsSystem.Controllers
                 var result = UserManager.Create(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(user.Id, "User");
+                    UserManager.AddToRole(user.Id, model.RoleName);
                     return RedirectToAction("Index", "Users");
+
                 }
                 AddErrors(result);
             }
@@ -55,26 +56,39 @@ namespace TestsSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             ApplicationUser applicationUser = db.Users.Find(id);
+            EditViewModel model = new EditViewModel();
+            model.Id = applicationUser.Id;
+            model.Name = applicationUser.Name;
+            model.Surname = applicationUser.Surname;
+            model.Email = applicationUser.Email;
+           
             if (applicationUser == null)
             {
                 return HttpNotFound();
             }
-            return View(applicationUser);
+            return View(model);
         }
 
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Email,UserName,Name,Surname,PasswordHash,SecurityStamp")] ApplicationUser applicationUser)
+        public ActionResult Edit(EditViewModel model)
         {
             if (ModelState.IsValid)
             {
+                ApplicationUser applicationUser = db.Users.Find(model.Id);
+                applicationUser.Name = model.Name;
+                applicationUser.Surname = model.Surname;
+                applicationUser.Email = model.Email;
+                applicationUser.UserName = model.Email;
+
                 db.Entry(applicationUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(applicationUser);
+            return View(model);
         }
 
         // GET: Users/Delete/5
