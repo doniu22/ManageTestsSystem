@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,12 +14,38 @@ namespace TestsSystem.Controllers
     [Authorize]
     public class UsersController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
-        
+        static ApplicationDbContext db = new ApplicationDbContext();
+        UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
         // GET: Users/Index
         public ActionResult Index()
         {
             return View(db.Users.ToList());
+        }
+
+        // GET: Users/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: /Users/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { Name = model.Name, Surname = model.Surname, UserName = model.Email, Email = model.Email };
+                var result = UserManager.Create(user, model.Password);
+                if (result.Succeeded)
+                {
+                    UserManager.AddToRole(user.Id, "User");
+                    return RedirectToAction("Index", "Users");
+                }
+                AddErrors(result);
+            }
+            return View(model);
         }
 
         // GET: Users/Edit/5
@@ -73,6 +101,14 @@ namespace TestsSystem.Controllers
             db.Users.Remove(applicationUser);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
     }
 }
