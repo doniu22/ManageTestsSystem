@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Manage Tests System</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -23,11 +23,17 @@
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                                <li>@Html.ActionLink("Zarządzaj użytkownikami", "Index", "Users")</li>     
+                         <li>@Html.ActionLink("Manage Users", "Index", "Users")</li>     
                     }
-                    <li></li>
-                    <li></li>
-                    <li></li>
+                    @if (Request.IsAuthenticated && User.IsInRole("Teacher"))
+                    {
+                         <li>@Html.ActionLink("Edit My Account", "EditMyAccount", "Users")</li>
+                         <li>@Html.ActionLink("Manage Tests", "Index", "Tests")</li>
+                    }
+                    @if (Request.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        <li>@Html.ActionLink("Edit My Account", "EditMyAccount", "Users")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

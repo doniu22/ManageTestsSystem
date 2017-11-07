@@ -46,9 +46,12 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index", "Users", null, new {@class = "btn btn-primary" })
-</div>
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        @Html.ActionLink("Back to List", "Index", "Users", null, new { @class = "btn btn-primary" })
+    </div>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

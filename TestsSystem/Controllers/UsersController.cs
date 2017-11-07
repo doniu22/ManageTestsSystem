@@ -86,7 +86,11 @@ namespace TestsSystem.Controllers
 
                 db.Entry(applicationUser).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if(User.IsInRole("Admin"))
+                    return RedirectToAction("Index");
+                else
+                    return RedirectToAction("Index","Home");
             }
             return View(model);
         }
@@ -124,5 +128,12 @@ namespace TestsSystem.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+
+        public ActionResult EditMyAccount()
+        {
+            ApplicationUser user = db.Users.Single(p => p.UserName == User.Identity.Name);
+            return RedirectToAction("Edit", new { id=user.Id});
+        }
+
     }
 }

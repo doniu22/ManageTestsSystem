@@ -1,0 +1,76 @@
+﻿@model TestsSystem.Models.Test
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center"><span class="glyphicon glyphicon-tag"></span> Test Details</h2>
+<hr />
+
+<div class="col-md-offset-2">
+    <dl class="dl-horizontal" style="font-size: large">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_at)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_at)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_by)
+        </dd>
+
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        @{ Html.RenderAction("Index", "Questions", new { TestID = Model.Id_testu }); }
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index",null, new {@class = "btn btn-primary"})
+</p>
+
+
+<!--Modal dialog-->
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/modal")
+}
+
+
+
+
+

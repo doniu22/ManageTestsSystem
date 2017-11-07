@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TestsSystem.Models.Test>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="text-center"><span class="glyphicon glyphicon-tags"></span> Lista testów</h2>
+    </div>
+
+    <table class="table table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created_at)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created_by)
+            </th>
+            <th>
+                <span class='glyphicon glyphicon-edit'></span> | 
+                <span class='glyphicon glyphicon-zoom-in'></span> | 
+                <span class='glyphicon glyphicon-trash'></span> 
+            </th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created_at)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created_by)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id_testu }, new { @class = "btn btn-primary"} ) 
+                @Html.ActionLink("Details", "Details", new { id=item.Id_testu }, new { @class = "btn btn-info" } ) 
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id_testu }, new { @class = "btn btn-danger" } )
+            </td>
+        </tr>
+    }
+    </table>
+</div>
+<p class="col-md-offset-5">
+    @Html.ActionLink("Create New Test", "Create", null, new { @class = "btn btn-primary" })
+</p>
