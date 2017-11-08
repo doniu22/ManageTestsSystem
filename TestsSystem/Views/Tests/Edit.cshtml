@@ -1,10 +1,10 @@
 ﻿@model TestsSystem.Models.Test
 
 @{
-    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br />
 <h2 class="text-center"><span class="glyphicon glyphicon-tag"></span> Edit selected test</h2>
 <hr />
 
@@ -17,39 +17,36 @@
         @Html.HiddenFor(model => model.Id_testu)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-offset-2 col-md-2" })
-            <div class="col-md-8">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-offset-3 col-md-2" })
+            <div class="col-md-7">
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-offset-2 col-md-2" })
-            <div class="col-md-8">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-offset-3 col-md-2" })
+            <div class="col-md-7">
                 @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Created_at, htmlAttributes: new { @class = "control-label col-md-offset-2 col-md-2" })
-            <div class="col-md-8">
+            @Html.LabelFor(model => model.Created_at, htmlAttributes: new { @class = "control-label col-md-offset-3 col-md-2" })
+            <div class="col-md-7">
                 @Html.EditorFor(model => model.Created_at, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Created_at, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Created_by, htmlAttributes: new { @class = "control-label col-md-offset-2 col-md-2" })
-            <div class="col-md-8">
+            @Html.LabelFor(model => model.Created_by, htmlAttributes: new { @class = "control-label col-md-offset-3 col-md-2" })
+            <div class="col-md-7">
                 @Html.EditorFor(model => model.Created_by, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Created_by, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-3">
+            <div class="col-md-offset-5">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>

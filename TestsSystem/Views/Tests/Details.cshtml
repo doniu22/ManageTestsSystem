@@ -1,16 +1,14 @@
 ﻿@model TestsSystem.Models.Test
 
 @{
-    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br />
 <h2 class="text-center"><span class="glyphicon glyphicon-tag"></span> Test Details</h2>
 <hr />
-
-<div class="col-md-offset-2">
+<div class="col-md-offset-3">
     <dl class="dl-horizontal" style="font-size: large">
-        
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -42,23 +40,20 @@
         <dd>
             @Html.DisplayFor(model => model.Created_by)
         </dd>
-
     </dl>
 </div>
-
 <div class="row">
     <div class="col-md-offset-2 col-md-8">
         @{ Html.RenderAction("Index", "Questions", new { TestID = Model.Id_testu }); }
     </div>
 </div>
-
 <p>
     @Html.ActionLink("Back to List", "Index",null, new {@class = "btn btn-primary"})
 </p>
 
 
 <!--Modal dialog-->
-<div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+<div id="modal-container" class="modal fade rounded" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
 

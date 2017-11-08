@@ -4,42 +4,42 @@
 {
     @Html.AntiForgeryToken()
     <br />
-    <h2 class="col-md-offset-3"><span class="glyphicon glyphicon-user"></span>Create a new user</h2>
+    <h2 class="text-center"><span class="glyphicon glyphicon-user"></span>Create a new user</h2>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.Name, new { @class = "col-md-offset-2 col-md-2 control-label" })
-        <div class="col-md-8">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-offset-3 col-md-2 control-label" })
+        <div class="col-md-7">
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Surname, new { @class = "col-md-offset-2 col-md-2 control-label" })
-        <div class="col-md-8">
+        @Html.LabelFor(m => m.Surname, new { @class = "col-md-offset-3 col-md-2 control-label" })
+        <div class="col-md-7">
             @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-offset-2 col-md-2 control-label" })
-        <div class="col-md-8">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-offset-3 col-md-2 control-label" })
+        <div class="col-md-7">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-offset-2 col-md-2 control-label" })
-        <div class="col-md-8">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-offset-3 col-md-2 control-label" })
+        <div class="col-md-7">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-offset-2 col-md-2 control-label" })
-        <div class="col-md-8">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-offset-3 col-md-2 control-label" })
+        <div class="col-md-7">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.RoleName, new { @class = "col-md-offset-2 col-md-2 control-label" })
-        <div class="col-md-8">
+        @Html.LabelFor(m => m.RoleName, new { @class = "col-md-offset-3 col-md-2 control-label" })
+        <div class="col-md-7">
             @Html.DropDownListFor(m => m.RoleName, new List<SelectListItem>
                                                         { new SelectListItem{Text="User", Value="User"},
                                                           new SelectListItem{Text="Teacher", Value="Teacher",  Selected = true},
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-4 col-md-8">
+        <div class="col-md-offset-5 col-md-7">
             <input type="submit" class="btn btn-primary" value="Create" />
         </div>
     </div>
