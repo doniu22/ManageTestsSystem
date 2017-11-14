@@ -17,7 +17,7 @@ namespace TestsSystem.Controllers
         static ApplicationDbContext db = new ApplicationDbContext();
         UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
-        // GET: Users/Index
+        // GET: Users
         public ActionResult Index()
         {
             return View(db.Users.ToList());

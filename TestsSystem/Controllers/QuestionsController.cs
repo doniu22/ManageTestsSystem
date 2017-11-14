@@ -19,7 +19,6 @@ namespace TestsSystem.Controllers
             ViewBag.TestID = TestID;
             var questions = db.Questions.Where(p => p.Test.Id_testu == TestID);
             return PartialView("_Index", questions.ToList() );
-
         }
 
         //GET: Questions/Create
@@ -50,7 +49,7 @@ namespace TestsSystem.Controllers
             return PartialView("_Create", question);
         }
 
-            // GET: Questions/Delete/5
+        // GET: Questions/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,7 +103,7 @@ namespace TestsSystem.Controllers
         // POST: Questions/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditQuestionViewModels ques )
+        public ActionResult Edit(EditQuestionViewModels ques)
         {
        
             if (ModelState.IsValid)

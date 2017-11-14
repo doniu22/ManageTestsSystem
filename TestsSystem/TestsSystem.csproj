@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PossibleAnswersController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -184,11 +185,16 @@
     <Compile Include="Migrations\201711031711513_second.Designer.cs">
       <DependentUpon>201711031711513_second.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711091129410_second1.cs" />
+    <Compile Include="Migrations\201711091129410_second1.Designer.cs">
+      <DependentUpon>201711091129410_second1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PossibleAnswer.cs" />
+    <Compile Include="Models\PossibleAnswerViewModels.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\QuestionViewModels.cs" />
     <Compile Include="Models\Test.cs" />
@@ -272,6 +278,10 @@
     <Content Include="Views\Questions\_Create.cshtml" />
     <Content Include="Views\Questions\_Delete.cshtml" />
     <Content Include="Views\Questions\_Edit.cshtml" />
+    <Content Include="Views\PossibleAnswers\_Index.cshtml" />
+    <Content Include="Views\PossibleAnswers\_Create.cshtml" />
+    <Content Include="Views\PossibleAnswers\_Delete.cshtml" />
+    <Content Include="Views\PossibleAnswers\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -287,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711031711513_second.resx">
       <DependentUpon>201711031711513_second.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711091129410_second1.resx">
+      <DependentUpon>201711091129410_second1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

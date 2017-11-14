@@ -11,7 +11,7 @@ namespace TestsSystem.Models
         [Key]
         public int Id_posans { get; set; }
         public string Content { get; set; }
-        public int isCorrect { get; set; }
+        public string isCorrect { get; set; }
 
         public virtual Question Question { get; set; }
     }
