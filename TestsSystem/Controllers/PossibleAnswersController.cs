@@ -9,22 +9,52 @@ using TestsSystem.Models;
 
 namespace TestsSystem.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     public class PossibleAnswersController : Controller
     {
-
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: PossibleAnswers
-        public ActionResult Index(int QuestionID)
+        // GET: PossibleAnswers?QuestionId=5
+        public ActionResult Index(int? QuestionID)
         {
-            var possibleanswers = db.PossibleAnswers.Where(p => p.Question.Id_question == QuestionID);
+            if (QuestionID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Question question = db.Questions.Find(QuestionID);
+
+            if (question == null)
+            {
+                return HttpNotFound();
+            }
+
+            var possibleanswers = db.PossibleAnswers.Where(p => p.Question.Id_question == question.Id_question);
             return PartialView("_Index", possibleanswers.ToList());
         }
 
-        //GET: PossibleAnswers/Create
-        public ActionResult Create(int QuestionID)
+        //GET: PossibleAnswers/Create?QuestionID=5
+        public ActionResult Create(int? QuestionID)
         {
-            var question = db.Questions.Single(p => p.Id_question == QuestionID);
+            if (QuestionID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Question ques = db.Questions.Find(QuestionID);
+
+            if (ques == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ques.Test.Status == "Open")
+            {
+                // komunikat ,że nie można utworzyć możliwej odpowiedzi do pytania w teście który jest otwarty do wypełniania
+                return RedirectToAction("Details", "Tests", new { id = ques.Test.Id_testu });
+            }
+
+            var question = db.Questions.Single(p => p.Id_question == ques.Id_question);
 
             var temp = question.PossibleAnswers.Where(p => p.isCorrect == "True")
                                                .Count();
@@ -41,7 +71,7 @@ namespace TestsSystem.Controllers
 
             CreatePossibleAnswerViewModels pos_ans = new CreatePossibleAnswerViewModels();
             pos_ans.TestID = question.Test.Id_testu;
-            pos_ans.QuestionID = QuestionID;
+            pos_ans.QuestionID = ques.Id_question;
            
             return PartialView("_Create", pos_ans);
         }
@@ -82,6 +112,13 @@ namespace TestsSystem.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (pos_ans.Question.Test.Status == "Open")
+            {
+                // komunikat ,że nie można usunąć możliwej odpowiedzi do pytania w teście który jest otwarty do wypełniania
+                return RedirectToAction("Details", "Tests", new { id = pos_ans.Question.Test.Id_testu });
+            }
+
             return PartialView("_Delete", pos_ans);
         }
 
@@ -114,6 +151,12 @@ namespace TestsSystem.Controllers
                 return HttpNotFound();
             }
 
+            if (pos_ans.Question.Test.Status == "Open")
+            {
+                // komunikat ,że nie można edytować możliwej odpowiedzi do pytania w teście który jest otwarty do wypełniania
+                return RedirectToAction("Details", "Tests", new { id = pos_ans.Question.Test.Id_testu });
+            }
+
             EditPossibleAnswerViewModels answer = new EditPossibleAnswerViewModels();
             answer.PosAnsID = pos_ans.Id_posans;
             answer.Content = pos_ans.Content;
@@ -136,7 +179,7 @@ namespace TestsSystem.Controllers
             return PartialView("_Edit", answer);
         }
 
-        // POST: PossibleAmswers/Edit/5
+        // POST: PossibleAnswers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditPossibleAnswerViewModels answer)

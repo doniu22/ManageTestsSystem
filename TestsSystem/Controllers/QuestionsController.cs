@@ -9,23 +9,51 @@ using TestsSystem.Models;
 
 namespace TestsSystem.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     public class QuestionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Questions
-        public ActionResult Index(int TestID)
+        // GET: Questions?TestID=5
+        public ActionResult Index(int? TestID)
         {
-            ViewBag.TestID = TestID;
-            var questions = db.Questions.Where(p => p.Test.Id_testu == TestID);
+            if (TestID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Test test = db.Tests.Find(TestID);
+            if (test == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.TestID = test.Id_testu;
+            ViewBag.TestStatus = test.Status;
+            var questions = db.Questions.Where(p => p.Test.Id_testu == test.Id_testu);
+
             return PartialView("_Index", questions.ToList() );
         }
 
-        //GET: Questions/Create
-        public ActionResult Create(int TestID)
+        //GET: Questions/Create?TestID=5
+        public ActionResult Create(int? TestID)
         {
+            if (TestID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Test test = db.Tests.Find(TestID);
+            if (test == null)
+            {
+                return HttpNotFound();
+            }
+            if (test.Status == "Open")
+            {
+                // komunikat ,że nie można dodać pytania do testu który jest otwarty do wypełniania
+                return RedirectToAction("Details", "Tests", new { id = test.Id_testu });
+            }
+
             CreateQuestionViewModels question = new CreateQuestionViewModels();
-            question.TestID = TestID;           
+            question.TestID = test.Id_testu;           
             return PartialView("_Create",question);
         }
 
@@ -61,6 +89,12 @@ namespace TestsSystem.Controllers
             {
                 return HttpNotFound();
             }
+            if (question.Test.Status == "Open")
+            {
+                // komunikat ,że nie można usunąć pytania z testu który jest otwarty do wypełniania
+                return RedirectToAction("Details", "Tests", new { id = question.Test.Id_testu });
+            }
+
             return PartialView("_Delete",question);
         }
 
@@ -90,6 +124,11 @@ namespace TestsSystem.Controllers
             if (question == null)
             {
                 return HttpNotFound();
+            }
+            if (question.Test.Status == "Open")
+            {
+                // komunikat ,że nie można edytać pytania w testu który jest otwarty do wypełniania
+                return RedirectToAction("Details", "Tests", new { id = question.Test.Id_testu });
             }
 
             EditQuestionViewModels ques = new EditQuestionViewModels();

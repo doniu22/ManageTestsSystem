@@ -16,12 +16,25 @@ namespace TestsSystem.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Tests
+        [Authorize(Roles = "Teacher, User")]
         public ActionResult Index()
         {
-            return View(db.Tests.ToList());
+            var testsList = new List<Test>();
+            if (User.IsInRole("Teacher"))
+            {
+                ApplicationUser user = db.Users.Single(p => p.UserName == User.Identity.Name);
+                testsList = user.Tests.ToList();
+            }
+            else
+            {
+                testsList = db.Tests.ToList();
+            }
+
+            return View(testsList);
         }
 
         // GET: Tests/Details/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,6 +50,7 @@ namespace TestsSystem.Controllers
         }
 
         // GET: Tests/Create
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create()
         {
             return View();
@@ -45,11 +59,13 @@ namespace TestsSystem.Controllers
         // POST: Tests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create(Test test)
         {
             ApplicationUser user = db.Users.Single(p => p.UserName == User.Identity.Name);
             test.Created_by = user.Name + ' ' + user.Surname;
             test.Created_at = DateTime.Now.ToString();
+            test.Status = "Prepared";
             test.Owner = user;
 
             if (ModelState.IsValid)
@@ -63,6 +79,7 @@ namespace TestsSystem.Controllers
         }
 
         // GET: Tests/Edit/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -74,13 +91,24 @@ namespace TestsSystem.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (test.Status == "Open")
+            {
+              //tutaj komunikat że nie można edytować testu który jest otwart do wypełniania
+              return RedirectToAction("Index");
+            }
+
+            ViewBag.Options = new List<SelectListItem> { new SelectListItem { Text = "Prepared", Value = "Prepared" , Selected = true },
+                                                         new SelectListItem { Text = "Open", Value = "Open" }};
+
             return View(test);
         }
 
         // POST: Tests/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_testu,Title,Subject,Created_at,Created_by")] Test test)
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Edit([Bind(Include = "Id_testu,Title,Subject,Created_at,Created_by,Status")] Test test)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +120,7 @@ namespace TestsSystem.Controllers
         }
 
         // GET: Tests/Delete/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -103,10 +132,18 @@ namespace TestsSystem.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (test.Status == "Open")
+            {
+                //tutaj komunikat że nie można usunąć testu który jest otwarty do wypełniania
+                return RedirectToAction("Index");
+            }
+
             return View(test);
         }
 
         // POST: Tests/Delete/5
+        [Authorize(Roles = "Teacher")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

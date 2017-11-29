@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TestsSystem.Models;
@@ -18,12 +19,14 @@ namespace TestsSystem.Controllers
         UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
         // GET: Users
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
         }
 
         // GET: Users/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -32,17 +35,17 @@ namespace TestsSystem.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(RegisterViewModel model)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Create(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { Name = model.Name, Surname = model.Surname, UserName = model.Email, Email = model.Email };
-                var result = UserManager.Create(user, model.Password);
+                var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, model.RoleName);
                     return RedirectToAction("Index", "Users");
-
                 }
                 AddErrors(result);
             }
@@ -96,6 +99,7 @@ namespace TestsSystem.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -113,6 +117,7 @@ namespace TestsSystem.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(string id)
         {
             ApplicationUser applicationUser = db.Users.Find(id);
@@ -129,6 +134,7 @@ namespace TestsSystem.Controllers
             }
         }
 
+        [Authorize(Roles = "Teacher,User")]
         public ActionResult EditMyAccount()
         {
             ApplicationUser user = db.Users.Single(p => p.UserName == User.Identity.Name);

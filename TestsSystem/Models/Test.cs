@@ -19,6 +19,7 @@ namespace TestsSystem.Models
         public string Subject { get; set; }
         public string Created_at { get; set; }
         public string Created_by { get; set; }
+        public string Status { get; set; }
 
         public virtual ApplicationUser Owner { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
