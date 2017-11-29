@@ -4,3 +4,11 @@
 }
 
 <h2 class="text-center">Witaj w systemie zarządzania testami! <span class="glyphicon glyphicon-book"></span></h2>
+
+@section Scripts {
+    <script type="text/javascript">
+        var msg = '@(TempData["msg"])';
+        var option = '@(TempData["option"])';
+    </script>
+    @Scripts.Render("~/bundles/toastr")
+}

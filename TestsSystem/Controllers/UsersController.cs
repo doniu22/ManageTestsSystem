@@ -45,6 +45,9 @@ namespace TestsSystem.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, model.RoleName);
+
+                    TempData["msg"] = "Dodano nowego użytkownika";
+                    TempData["option"] = "success";
                     return RedirectToAction("Index", "Users");
                 }
                 AddErrors(result);
@@ -61,16 +64,19 @@ namespace TestsSystem.Controllers
             }
 
             ApplicationUser applicationUser = db.Users.Find(id);
+
+            if (applicationUser == null)
+            {
+                return HttpNotFound();
+            }
+
             EditViewModel model = new EditViewModel();
             model.Id = applicationUser.Id;
             model.Name = applicationUser.Name;
             model.Surname = applicationUser.Surname;
             model.Email = applicationUser.Email;
            
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
+            
             return View(model);
         }
 
@@ -90,7 +96,9 @@ namespace TestsSystem.Controllers
                 db.Entry(applicationUser).State = EntityState.Modified;
                 db.SaveChanges();
 
-                if(User.IsInRole("Admin"))
+                TempData["msg"] = "Edytowano dane poprawnie";
+                TempData["option"] = "success";
+                if (User.IsInRole("Admin"))
                     return RedirectToAction("Index");
                 else
                     return RedirectToAction("Index","Home");
@@ -121,8 +129,12 @@ namespace TestsSystem.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             ApplicationUser applicationUser = db.Users.Find(id);
+           // db.Tests.Where(p => p.Owner.Id == applicationUser.Id).Load(); - do zmian aby testy które utworzył zostały a ich twórca był na null
             db.Users.Remove(applicationUser);
             db.SaveChanges();
+
+            TempData["msg"] = "Usunięto użytkownika";
+            TempData["option"] = "error";
             return RedirectToAction("Index");
         }
 

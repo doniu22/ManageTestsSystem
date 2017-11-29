@@ -48,7 +48,8 @@ namespace TestsSystem.Controllers
             }
             if (test.Status == "Open")
             {
-                // komunikat ,że nie można dodać pytania do testu który jest otwarty do wypełniania
+                TempData["msg"] = "Nie można dodać pytania do testu, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
                 return RedirectToAction("Details", "Tests", new { id = test.Id_testu });
             }
 
@@ -71,6 +72,9 @@ namespace TestsSystem.Controllers
 
                 db.Questions.Add(quest);
                 db.SaveChanges();
+
+                TempData["msg"] = "Utworzono nowe pytanie do testu poprawnie!";
+                TempData["option"] = "success";
                 return RedirectToAction("Details","Tests", new { id = test.Id_testu });
             }
 
@@ -91,7 +95,8 @@ namespace TestsSystem.Controllers
             }
             if (question.Test.Status == "Open")
             {
-                // komunikat ,że nie można usunąć pytania z testu który jest otwarty do wypełniania
+                TempData["msg"] = "Nie można usunąć pytania z testu, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
                 return RedirectToAction("Details", "Tests", new { id = question.Test.Id_testu });
             }
 
@@ -107,6 +112,9 @@ namespace TestsSystem.Controllers
             int TestID = question.Test.Id_testu;
             db.Questions.Remove(question);
             db.SaveChanges();
+
+            TempData["msg"] = "Usunięto pytanie z testu poprawnie!";
+            TempData["option"] = "success";
             return RedirectToAction("Details","Tests",new {id = TestID });
         }
 
@@ -127,7 +135,8 @@ namespace TestsSystem.Controllers
             }
             if (question.Test.Status == "Open")
             {
-                // komunikat ,że nie można edytać pytania w testu który jest otwarty do wypełniania
+                TempData["msg"] = "Nie można edytować pytania w teście, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
                 return RedirectToAction("Details", "Tests", new { id = question.Test.Id_testu });
             }
 
@@ -152,6 +161,9 @@ namespace TestsSystem.Controllers
 
                 db.Entry(question).State = EntityState.Modified;
                 db.SaveChanges();
+
+                TempData["msg"] = "Edytowano pytanie w teście poprawnie!";
+                TempData["option"] = "success";
                 return RedirectToAction("Details","Tests",new { id = ques.TestID });
             }
             return PartialView("_Edit",ques);

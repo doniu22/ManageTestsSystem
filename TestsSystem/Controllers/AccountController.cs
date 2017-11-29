@@ -81,6 +81,8 @@ namespace TestsSystem.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    TempData["msg"] = "Zalogowano do systemu :)";
+                    TempData["option"] = "success";
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -387,6 +389,8 @@ namespace TestsSystem.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            TempData["msg"] = "Wylogowano z systemu :(";
+            TempData["option"] = "error";
             return RedirectToAction("Index", "Home");
         }
 

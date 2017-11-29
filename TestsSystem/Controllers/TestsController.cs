@@ -72,6 +72,9 @@ namespace TestsSystem.Controllers
             {
                 db.Tests.Add(test);
                 db.SaveChanges();
+
+                TempData["msg"] = "Utworzono nowy test poprawnie!";
+                TempData["option"] = "success";
                 return RedirectToAction("Details",new { id=test.Id_testu});
             }
 
@@ -94,8 +97,9 @@ namespace TestsSystem.Controllers
 
             if (test.Status == "Open")
             {
-              //tutaj komunikat że nie można edytować testu który jest otwart do wypełniania
-              return RedirectToAction("Index");
+                TempData["msg"] = "Nie można edytowac testu, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
+                return RedirectToAction("Index");
             }
 
             ViewBag.Options = new List<SelectListItem> { new SelectListItem { Text = "Prepared", Value = "Prepared" , Selected = true },
@@ -114,6 +118,9 @@ namespace TestsSystem.Controllers
             {
                 db.Entry(test).State = EntityState.Modified;
                 db.SaveChanges();
+
+                TempData["msg"] = "Edytowano test poprawnie!";
+                TempData["option"] = "success";
                 return RedirectToAction("Index");
             }
             return View(test);
@@ -135,7 +142,8 @@ namespace TestsSystem.Controllers
 
             if (test.Status == "Open")
             {
-                //tutaj komunikat że nie można usunąć testu który jest otwarty do wypełniania
+                TempData["msg"] = "Nie można usunąć testu, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
                 return RedirectToAction("Index");
             }
 
@@ -151,6 +159,9 @@ namespace TestsSystem.Controllers
             Test test = db.Tests.Find(id);
             db.Tests.Remove(test);
             db.SaveChanges();
+
+            TempData["msg"] = "Usunięto test poprawnie!";
+            TempData["option"] = "success";
             return RedirectToAction("Index");
         }
 

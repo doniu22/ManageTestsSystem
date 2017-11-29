@@ -50,7 +50,8 @@ namespace TestsSystem.Controllers
 
             if (ques.Test.Status == "Open")
             {
-                // komunikat ,że nie można utworzyć możliwej odpowiedzi do pytania w teście który jest otwarty do wypełniania
+                TempData["msg"] = "Nie można utworzyć możliwej odpowiedzi do pytania w teście, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
                 return RedirectToAction("Details", "Tests", new { id = ques.Test.Id_testu });
             }
 
@@ -92,6 +93,9 @@ namespace TestsSystem.Controllers
 
                 db.PossibleAnswers.Add(possible_answer);
                 db.SaveChanges();
+
+                TempData["msg"] = "Utworzono możliwą odpowiedź do pytania w teście poprawnie!";
+                TempData["option"] = "success";
                 return RedirectToAction("Details", "Tests", new { id = pos_ans.TestID });
             }
 
@@ -115,7 +119,8 @@ namespace TestsSystem.Controllers
 
             if (pos_ans.Question.Test.Status == "Open")
             {
-                // komunikat ,że nie można usunąć możliwej odpowiedzi do pytania w teście który jest otwarty do wypełniania
+                TempData["msg"] = "Nie można usunąć możliwej odpowiedzi do pytania w teście, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
                 return RedirectToAction("Details", "Tests", new { id = pos_ans.Question.Test.Id_testu });
             }
 
@@ -132,6 +137,9 @@ namespace TestsSystem.Controllers
 
             db.PossibleAnswers.Remove(pos_ans);
             db.SaveChanges();
+
+            TempData["msg"] = "Usunięto możliwą odpowiedź do pytania w teście poprawnie!";
+            TempData["option"] = "success";
             return RedirectToAction("Details", "Tests", new { id = TestID });
         }
 
@@ -153,7 +161,8 @@ namespace TestsSystem.Controllers
 
             if (pos_ans.Question.Test.Status == "Open")
             {
-                // komunikat ,że nie można edytować możliwej odpowiedzi do pytania w teście który jest otwarty do wypełniania
+                TempData["msg"] = "Nie można edytowac możliwej odpowiedzi do pytania w teście, który jest otwarty do wypełniania!";
+                TempData["option"] = "warning";
                 return RedirectToAction("Details", "Tests", new { id = pos_ans.Question.Test.Id_testu });
             }
 
@@ -193,6 +202,9 @@ namespace TestsSystem.Controllers
 
                 db.Entry(pos_ans).State = EntityState.Modified;
                 db.SaveChanges();
+
+                TempData["msg"] = "Edytowano możliwą odpowiedź do pytania w teście poprawnie!";
+                TempData["option"] = "success";
                 return RedirectToAction("Details", "Tests", new { id = answer.TestID });
             }
             return PartialView("_Edit", answer);

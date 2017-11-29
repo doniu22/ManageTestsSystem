@@ -25,10 +25,16 @@ namespace TestsSystem
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/toastr.css",
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/modal").Include(
                 "~/Scripts/modal.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
+                "~/Scripts/toastr.js",
+                "~/Scripts/notification.js"));
+
         }
     }
 }

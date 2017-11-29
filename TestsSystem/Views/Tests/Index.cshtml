@@ -94,3 +94,11 @@
     @Html.ActionLink("Create New Test", "Create", null, new { @class = "btn btn-primary" })
 </p>
 }
+
+@section Scripts {
+    <script type="text/javascript">
+        var msg = '@(TempData["msg"])';
+        var option = '@(TempData["option"])';
+    </script>
+    @Scripts.Render("~/bundles/toastr")
+}
