@@ -62,14 +62,14 @@ namespace TestsSystem.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult Create(Test test)
         {
-            ApplicationUser user = db.Users.Single(p => p.UserName == User.Identity.Name);
-            test.Created_by = user.Name + ' ' + user.Surname;
-            test.Created_at = DateTime.Now.ToString();
-            test.Status = "Prepared";
-            test.Owner = user;
-
             if (ModelState.IsValid)
             {
+                ApplicationUser user = db.Users.Single(p => p.UserName == User.Identity.Name);
+                test.Created_by = user.Name + ' ' + user.Surname;
+                test.Created_at = DateTime.Now.ToString();
+                test.Status = "Prepared";
+                test.Owner = user;
+
                 db.Tests.Add(test);
                 db.SaveChanges();
 
@@ -77,7 +77,6 @@ namespace TestsSystem.Controllers
                 TempData["option"] = "success";
                 return RedirectToAction("Details",new { id=test.Id_testu});
             }
-
             return View(test);
         }
 

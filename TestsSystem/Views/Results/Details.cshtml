@@ -1,0 +1,107 @@
+﻿@model TestsSystem.Models.Result
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="row">
+    <h2 class="text-center"><span class="glyphicon glyphicon-list"></span>Result Details</h2>
+    <hr />
+    <div class="col-md-offset-3">
+        <dl class="dl-horizontal" style="font-size: large">
+            <dt>
+                @Html.DisplayNameFor(model => model.Created_By)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Created_By)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Created_At)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Created_At)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Test Title:")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Test.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Scored Points:")
+            </dt>
+
+            <dd>
+               @ViewBag.ScoredPoints  / @Model.Answers.Count
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<hr />
+<br />
+<div class="row">
+
+    @foreach (var answer in Model.Answers)
+    {
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4><strong>@Html.DisplayFor(model => answer.Question.Content)</strong></h4> 
+                    </div>
+                    <div class="panel-body">
+                        @foreach (var posans in answer.Question.PossibleAnswers)
+                        {
+                            if (answer.Content == posans.Content)
+                            {
+                                if (posans.isCorrect == "True")
+                                { 
+                                    <h4 class="text-center" style="color : green">
+                                        <strong>@Html.DisplayFor(modelItem => posans.Content)</strong>
+                                    </h4>
+                                    <br />
+                                }
+                                else
+                                {
+                                    <h4 class="text-center" style="color : red">
+                                        <strong>@Html.DisplayFor(modelItem => posans.Content)</strong>
+                                    </h4>
+                                    <br />
+                                }
+                            }
+                            else
+                            {
+
+                                <h4 class="text-center" style="color : black">
+                                    <strong>@Html.DisplayFor(modelItem => posans.Content)</strong>
+                                </h4>
+                                <br />
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="text-center">
+        @if (User.IsInRole("User"))
+        {
+            @Html.ActionLink("Back to results list","MyResults", "Results", null, new { @class = "btn btn-primary" })
+        }
+        else
+        {
+            @Html.ActionLink("Back to results list","Index", "Results", new { TestID = Model.Test.Id_testu}, new { @class = "btn btn-primary" })
+        }
+    </div>
+</div>

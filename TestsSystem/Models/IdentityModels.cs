@@ -20,6 +20,7 @@ namespace TestsSystem.Models
         public string Surname { get; set; }
 
         public virtual ICollection<Test> Tests { get; set; }
+        public virtual ICollection<Result> Results { get; set; }
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -47,10 +48,12 @@ namespace TestsSystem.Models
         {
             base.OnModelCreating(modelBuilder);
 
+
+            // gałąź tworzenia testu
             modelBuilder.Entity<Test>()
-            .HasRequired(b => b.Owner)
+            .HasOptional(b => b.Owner)
             .WithMany(b => b.Tests)
-            .WillCascadeOnDelete(true);
+            .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Question>()
             .HasRequired(b => b.Test)
@@ -61,11 +64,37 @@ namespace TestsSystem.Models
             .HasRequired(b => b.Question)
             .WithMany(b => b.PossibleAnswers)
             .WillCascadeOnDelete(true);
+
+            //gałąź wypełniania testu
+            modelBuilder.Entity<Result>()
+            .HasOptional(b => b.Owner)
+            .WithMany(b => b.Results)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Result>()
+            .HasRequired(b => b.Test)
+            .WithMany(b => b.Results)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Answer>()
+            .HasRequired(b => b.Result)
+            .WithMany(b => b.Answers)
+            .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Answer>()
+            .HasRequired(b => b.Question)
+            .WithMany(b => b.Answers)
+            .WillCascadeOnDelete(false);
+
+
         }
 
 
         public DbSet<Test> Tests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<PossibleAnswer> PossibleAnswers { get; set; }
+
+        public DbSet<Result> Results { get; set; }
+        public DbSet<Answer> Answers { get; set; }
     }
 }

@@ -1,0 +1,93 @@
+﻿@model TestsSystem.Models.CreateResultViewModels
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="row">
+    <h2 class="text-center"><span class="glyphicon glyphicon-tag"></span> Test Info</h2>
+    <hr />
+    <div class="col-md-offset-3">
+        <dl class="dl-horizontal" style="font-size: large">
+            <dt>
+                @Html.DisplayNameFor(model => model.TestTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TestTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TestSubject)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TestSubject)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TestCreator)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TestCreator)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TestData)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TestData)
+            </dd>
+        </dl>
+    </div>
+    <hr />
+    <h2 class="text-center"><span class="glyphicon glyphicon-tag"></span> Fill in this test:</h2>
+    <hr />
+</div>
+<br />
+<div class="row">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+           @Html.HiddenFor(model => model.TestID)
+
+           @for (int i=0;i<ViewBag.QuestionsCount;i++)
+           {
+                <div class="row">
+                   <div class="col-md-offset-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4><strong>@Html.DisplayFor(model => model.TestQuestions[i].Content)</strong></h4>
+                            </div>
+                            <div class="panel-body">
+                                @Html.HiddenFor(model => model.AnswersViewModels[i].Id_question)
+                                @foreach (var posans in Model.TestQuestions[i].PossibleAnswers)
+                                {
+                                    <div class="form-group text-center">
+                                        @Html.RadioButtonFor(model => model.AnswersViewModels[i].Content, posans.Content) 
+                                        @Html.DisplayFor(model => posans.Content)
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="text-center">
+                            <input type="submit" value="Fill in" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+        </div>
+    }
+</div>
+

@@ -19,5 +19,7 @@ namespace TestsSystem.Models
 
         public virtual Test Test { get; set; }
         public virtual ICollection<PossibleAnswer> PossibleAnswers { get; set; }
+        public virtual ICollection<Answer>  Answers { get; set; }
+
     }
 }

@@ -129,7 +129,8 @@ namespace TestsSystem.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             ApplicationUser applicationUser = db.Users.Find(id);
-           // db.Tests.Where(p => p.Owner.Id == applicationUser.Id).Load(); - do zmian aby testy które utworzył zostały a ich twórca był na null
+            db.Tests.Where(p => p.Owner.Id == applicationUser.Id).Load(); //- do zmian aby testy które utworzył zostały a ich twórca był na null
+            db.Results.Where(p => p.Owner.Id == applicationUser.Id).Load(); //  do zmian aby testy które wypełnuił zostały a ich twórca był na null
             db.Users.Remove(applicationUser);
             db.SaveChanges();
 
